@@ -28,6 +28,18 @@
             <span class="links_name">Dashboard</span>
           </a>
         </li>
+        <li>
+          <a href="vente.php">
+          <i class='bx bx-shopping-bag'></i>
+            <span class="links_name">Vente</span>
+          </a>
+        </li>
+        <li>
+          <a href="client.php">
+          <i class="bx bx-user"></i>
+            <span class="links_name">Client</span>
+          </a>
+        </li>
         <!-- section article -->
         <li>
           <a href="article.php">

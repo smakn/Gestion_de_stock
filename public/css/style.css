@@ -485,14 +485,14 @@ form{
   color: white;
   border-radius: 10px;
 }
-.alert.danger{
+.alert .danger{
   background-color: red;
 }
-.alert.succes{
+.alert .succes{
   background-color:green;
 }
 /*css tableau*/
-table.mtable{
+table .mtable{
   width:100% ;
   border-collapse:collapse;
   border: 1px solid #ddd;
@@ -501,7 +501,7 @@ th, td{
   text-align: left;
   padding: 10px;
 }
-table.matable tr:nth-child(even){
+table .matable tr:nth-child(even){
   background: #f2f2f2;
 }
 table.mtable td{
@@ -509,16 +509,16 @@ table.mtable td{
 }
 
 /*css tableau*/
-ul.mtable, ol.mtable{
+ul .mtable, ol.mtable{
   padding: 0;
   margin: 0;
   list-style: none;
 
 }
-ul.mtable li, ol.mtable li{
+ul .mtable li, ol.mtable li{
   padding: 10px;
 }
-ul.matable li:nth-child(even),
-ol.matable li:nth-child(even){
+ul .matable li:nth-child(even),
+ol .matable li:nth-child(even){
   background: #f2f2f2;
 }
