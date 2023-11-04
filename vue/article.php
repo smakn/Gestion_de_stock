@@ -7,27 +7,31 @@
     
 ?>
 
-<div class="home-content">
-        <div class="overview-boxes">
-            <div class="box">
-                <form action=" <?= !empty($_GET['id']) ? "../model/modifArticle.php" : "../model/AjoutArticle.php " ?>"  method="POST">
+    <div class="home-content">
+        <div  class="overview-boxes">
+            <div  class="box">
+                <!--enctype="multipart/form-data" pour que l image sois reconnu-->
+                <form action=" <?= !empty($_GET['id']) ? "../model/modifArticle.php" : "../model/AjoutArticle.php " ?>"  method="POST" enctype="multipart/form-data">
                     <label for="Nom_article"> Nom de l'article</label>
                     <input value="<?= !empty($_GET['id']) ? $article['Nom_article']  : "" ?>" type="text" name="Nom_article" id="Nom_article" placeholder="Veuillez saisir votre nom">
                     <input value="<?= !empty($_GET['id']) ? $article['id']  : "" ?>" type="hidden" name="id" id="id" >
 
-                    <label for="categorie"> Categorie</label>
-                    <select name="categorie" id="categorie">
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "ordinateur" ? "selected" : "" ?> value="ordinateur">Ordinateur</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "Imprimante" ? "selected" : "" ?> value="Imprimante">Imprimante</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "scaner" ? "selected" : "" ?> value="scaner">scaner</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "telephone" ? "selected" : "" ?> value="telephone">telephone</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "sourie" ? "selected" : "" ?> value="sourie">sourie</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "clavier" ? "selected" : "" ?> value="clavier">clavier</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "cle_usb" ? "selected" : "" ?> value="cle_usb">cle usb</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "cle_internet" ? "selected" : "" ?> value="cle_internet">cle_internet</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "disque_dur" ? "selected" : "" ?> value="disque_dur">disque_dur</option>
-                        <option <?= !empty($_GET['id']) && $article['categorie'] == "ram" ? "selected" : "" ?> value="ram">ram</option>
+                    <label for="id_categorie"> Categorie</label>
+                    <select name="id_categorie" id="id_categorie">
+                    <?php
+                    #parcourir le tableau
+                       $categories=getCategorie();
+                        if (!empty($categories) && is_array($categories)) {
+                            foreach ($categories as $key => $value) {
+                                # code...
+                          
+                        ?>
+                        <option <?= !empty($_GET['id']) && $article['id_categorie'] == $value['id'] ? "selected" : "" ?> value="<?= $value['id']  ?>"><?= $value['libelle_categorie']  ?></option>
+                        <?php
+                         }
+                        }
                         
+                    ?>                       
                     </select>
 
                     <label for="quantite"> Quantité</label>
@@ -41,6 +45,9 @@
 
                     <label for="date_expiration"> Date d'expiration</label>
                     <input value="<?= !empty($_GET['id']) ? $article['date_expiration']  : "" ?>" type="datetime-local" name="date_expiration" id="date_expiration" >
+
+                    <label for="images"> Image</label>
+                    <input value="<?= !empty($_GET['id']) ? $article['images']  : "" ?>" type="file" name="images" id="images" >
 
                     <button type="submit" name="valider"> Valider</button>
                 <!--message a afficher en cas de reussite du remplissage du formulaire ou de l echec-->
@@ -58,8 +65,69 @@
                 </form>
 
             </div>
-            <div class="box">
+             <div style="display:block;" class="box">
+
+                <form action="" method="get">
+                        <table class="mtable">
+                                
+                                <tr>
+                                    <th>Nom article</th>
+                                    <th>Categorie</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Date de fabrication</th>
+                                    <th>Date d'expiration</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    <input type="text" name="Nom_article" id="Nom_article" placeholder="Veuillez saisir votre nom">   
+                                    </td>
+                                    <td>
+                                            <select name="id_categorie" id="id_categorie">
+                                                <option value="">--choisir une categorie--</option>
+                                        <?php
+                                        #parcourir le tableau
+                                        $categories=getCategorie();
+                                            if (!empty($categories) && is_array($categories)) {
+                                                foreach ($categories as $key => $value) {
+                                                    # code...
+                                            
+                                            ?>
+                                            <option <?= !empty($_GET['id']) && $article['id_categorie'] == $value['id'] ? "selected" : "" ?> value="<?= $value['id']  ?>"><?= $value['libelle_categorie']  ?></option>
+                                            <?php
+                                            }
+                                            }
+                                            
+                                            ?>                       
+                                            </select>   
+                                    </td>
+
+                                    <td>
+                                        <input  type="number" name="quantite" id="quantite" placeholder="Veuillez saisir la auqntité">   
+                                    </td>
+
+                                    <td>
+                                        <input  type="text" name="prix_unitaire" id="prix_unitaire" placeholder="Veuillez saisir le prix unitaire">   
+                                    </td>
+
+                                    <td>
+                                        <input  type="date" name="date_fabrication" id="date_fabrication" >   
+                                    </td>
+
+                                    <td>
+                                        <input type="date" name="date_expiration" id="date_expiration" >
+                                    </td>
+                                </tr>
+                                <!--afficher les article enregistre dans la base sur article-->
+
+                        </table>
+                        <br>
+                        <button type="submit" name="valider"> Valider</button>
+                        
+                </form>
+                <br>
                 <table class="mtable">
+                    
                     <tr>
                         <th>Nom article</th>
                         <th>Categorie</th>
@@ -67,21 +135,29 @@
                         <th>Prix unitaire</th>
                         <th>Date de fabrication</th>
                         <th>Date d'expiration</th>
+                        <th>Image</th>
                         <th>Action</th>
                     </tr>
                     <!--afficher les article enregistre dans la base sur article-->
                     <?php
+                    if (!empty($_GET)) {
+                        $articles = getArticle(null, $_GET);
+                    }else{
                         $articles = getArticle();
+                    }
+
+                        
                         if (!empty($articles) && is_array($articles)) {
                             foreach ($articles as $key => $value) { 
                     ?>
                     <tr>
                         <td> <?= $value['Nom_article'] ?></td>
-                        <td> <?= $value['categorie'] ?></td>
+                        <td> <?= $value['libelle_categorie'] ?></td>
                         <td> <?= $value['quantite'] ?></td>
                         <td> <?= $value['prix_unitaire'] ?></td>
                         <td> <?= date('d/m/Y H:i:s', strtotime ($value['date_fabrication'])) ?></td>
                         <td> <?= date('d/m/Y H:i:s', strtotime ( $value['date_expiration'])) ?></td>
+                        <td> <img width="50" height="50" src="<?= $value['images'] ?>" alt="<?= $value['Nom_article'] ?>"></td>
                         <td><a href="?id=<?=  $value['id'] ?>"> <i class="bx bx-edit-alt"></i> </a></td>
                     </tr>
                     <?php
@@ -89,9 +165,10 @@
                         }
                     ?>
                 </table>
+
             </div>
         </div>
-
+        
     </div>
     </section>
 </body>
@@ -100,3 +177,4 @@
 <?php
     include 'pied.php';
 ?>
+            

@@ -1,7 +1,7 @@
 <?php
 
 $serveur = "localhost";
-$bd="test";
+$bd="gestion_stock";
 $utilisateur="dev";
 $pass="dev";
 

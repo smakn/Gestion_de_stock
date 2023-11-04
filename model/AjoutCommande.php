@@ -4,30 +4,24 @@ include_once "fonction.php";
 
 if (
     !empty($_POST ['id_articles'] )
-    && !empty($_POST ['id_clients'] )
+    && !empty($_POST ['id_fournisseur'] )
     && !empty($_POST ['quantite'] )
     && !empty($_POST ['prix'] )
 
     ) {
-        $article = getArticle($_POST ['id_articles'] );
-
-        if (!empty($article) && is_array($article)) {
-            if ($_POST ['quantite']> $article['quantite']) {
-                $_SESSION['message']['text'] = "la quantité à vendre n est pas disponible:";
-                $_SESSION['message']['type'] = "succes";
-            }else{
-                $sql = "INSERT INTO ventes(id_articles, id_clients, quantite, prix)
+        
+                $sql = "INSERT INTO commande(id_articles, id_fournisseur, quantite, prix)
                 VALUES (?, ?, ?, ?)   "; 
                 $req = $connexion->prepare($sql);
                 $req -> execute(array(
                     $_POST ['id_articles'],
-                    $_POST ['id_clients'],
+                    $_POST ['id_fournisseur'],
                     $_POST ['quantite'],
                     $_POST ['prix']
                 ));
             //message a afficher dans article apres l enregistrement
                 if ($req ->rowCount()!=0) {
-                    $sql= "UPDATE articles SET quantite=quantite-? WHERE id=?";
+                    $sql= "UPDATE articles SET quantite=quantite+? WHERE id=?";
 
                     $req = $connexion->prepare($sql);
                     $req -> execute(array(
@@ -38,24 +32,21 @@ if (
 
                     if ($req ->rowCount()!=0) {
                       
-                        $_SESSION['message']['text'] = "Vente effectué avec succes:";
+                        $_SESSION['message']['text'] = "Commande effectué avec succes:";
                         $_SESSION['message']['type'] = "succes";
                     }else{
-                        $_SESSION['message']['text'] = "impossible de faire cette vente:";
+                        $_SESSION['message']['text'] = "impossible de faire cette commande:";
                     $_SESSION['message']['type'] = "danger";
                     }
 
 
                 } 
                 else{
-                    $_SESSION['message']['text'] = "Une erreur a été détecté lors de la vente:";
+                    $_SESSION['message']['text'] = "Une erreur a été détecté lors de la commande:";
                     $_SESSION['message']['type'] = "danger";
                 }
 
-                }
-           
-        }
-   
+        
 
 }
 else {
@@ -63,6 +54,6 @@ else {
     $_SESSION['message']['type'] = "danger";
 
     }
-header("Location:../vue/vente.php");
+header("Location:../vue/commande.php");
     
 ?>

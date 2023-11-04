@@ -2,7 +2,7 @@
     include 'entete.php';
 //recupaire l article qui est dans GET pour le mettre dans le formulaire
     if (!empty($_GET['id'])) {
-        $article = getVente($_GET['id']);
+        $article = getCommande($_GET['id']);
     }
     
 ?>
@@ -10,7 +10,7 @@
 <div class="home-content">
         <div class="overview-boxes">
             <div class="box">
-                <form action=" <?= !empty($_GET['id']) ? "../model/modifVente.php" : "../model/AjoutVente.php " ?>"  method="POST">
+                <form action=" <?= !empty($_GET['id']) ? "../model/modifCommande.php" : "../model/AjoutCommande.php " ?>"  method="POST">
                     
                     <input value="<?= !empty($_GET['id']) ? $article['id']  : "" ?>" type="hidden" name="id" id="id" >
 
@@ -35,15 +35,15 @@
                         
                     </select>
 
-                    <label for="id_clients"> Client</label>
-                    <select name="id_clients" id="id_clients">
+                    <label for="id_fournisseur"> Fournisseur</label>
+                    <select name="id_fournisseur" id="id_fournisseur">
                     <?php
 
                     //recupaire tout les articles et les stock dans get
-                            $clients = getClient();
-                            if (!empty($clients) && is_array($clients)) {
+                            $fournisseur = getFournisseur();
+                            if (!empty($fournisseur) && is_array($fournisseur)) {
                                 //parcourir le tableau
-                                foreach ($clients as $key => $value) {
+                                foreach ($fournisseur as $key => $value) {
                             ?>
                             <!--verification si disponible-->
                             <option value="<?= $value['id']?>"> <?= $value['Nom']. " " . $value['Prenom'] ?></option>
@@ -83,7 +83,7 @@
                 <table class="mtable">
                     <tr>
                         <th>Article</th>
-                        <th>Client</th>
+                        <th>Fournisseur</th>
                         <th>Quantité</th>
                         <th>Prix</th>
                         <th>Date</th>
@@ -92,7 +92,7 @@
                     </tr>
                     <!--afficher les article enregistre dans la base sur article-->
                     <?php
-                        $ventes = getVente();
+                        $ventes = getCommande();
                         if (!empty($ventes) && is_array($ventes)) {
                             foreach ($ventes as $key => $value) { 
                     ?>
@@ -101,7 +101,7 @@
                         <td> <?= $value['Nom'] ." ". $value['Prenom']?></td>
                         <td> <?= $value['quantite'] ?></td>
                         <td> <?= $value['prix'] ?></td>
-                        <td> <?= date('d/m/Y H:i:s', strtotime ($value['date_vente'])) ?></td>
+                        <td> <?= date('d/m/Y H:i:s', strtotime ($value['date_commande'])) ?></td>
                         <td>
                             <a href="recuVente.php?id=<?=  $value['id'] ?>"> <i class='bx bx-receipt'></i> </a>
                             <a onclick="annuleVente(<?=$value['id'] ?>, <?=$value['idArticles'] ?>, <?=$value['quantite'] ?> )" style="color:red;"> <i class='bx bx-stop-circle'></i> </a>
